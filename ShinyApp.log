@@ -1,0 +1,28 @@
+library paths:
+... C:/Users/KANAIHYA/Documents/nseeoddownloader/R-Portable/App/R-Portable/library
+Loading required package: shiny
+
+Listening on http://127.0.0.1:5078
+Browser path: C:/Program Files (x86)/Google/Chrome/Application/chrome.exe
+[6192:8904:0129/000251.005:ERROR:cache_util_win.cc(21)] Unable to move the cache: Access is denied. (0x5)
+[6192:8904:0129/000251.005:ERROR:cache_util.cc(141)] Unable to move cache folder C:\Users\KANAIHYA\AppData\Local\Google\Chrome\User Data\ShaderCache\GPUCache to C:\Users\KANAIHYA\AppData\Local\Google\Chrome\User Data\ShaderCache\old_GPUCache_001
+[6192:8904:0129/000251.005:ERROR:disk_cache.cc(178)] Unable to create cache
+[6192:8904:0129/000251.005:ERROR:shader_disk_cache.cc(605)] Shader Cache Creation failed: -2
+Opening in existing browser session.
+URL caused a warning: https://archives.nseindia.com/content/historical/EQUITIES/2020/JAN/cm29JAN2020bhav.csv.zip
+Here's the original warning message:
+error 1 in extracting from zip file-- Attaching packages --------------------------------------- tidyverse 1.3.0 --
+v ggplot2 3.2.1     v dplyr   0.8.3
+v tidyr   1.0.0     v stringr 1.4.0
+v readr   1.3.1     v forcats 0.4.0
+v purrr   0.3.3     
+-- Conflicts ------------------------------------------ tidyverse_conflicts() --
+x dplyr::filter()     masks stats::filter()
+x dplyr::lag()        masks stats::lag()
+x readr::parse_date() masks curl::parse_date()
+Warning: Error in write.table: object 'dataset' not found
+  75: is.data.frame
+  74: write.table
+  73: merge_files
+  72: observeEventHandler [C:\Users\KANAIHYA\Documents\nseeoddownloader\shiny\/server.R#41]
+   1: shiny::runApp
