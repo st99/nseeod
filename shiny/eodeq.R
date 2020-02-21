@@ -63,7 +63,8 @@ wb1[,1]<-gsub(' ','',wb1[,1])
 wb1[,2]<-format(as.Date(wb1[,2],"%d-%b-%Y"),"%Y%m%d")
 
 #Writing to text file
-out_file<-paste("../Output-Files/equity",today,".txt",sep="")
+today<-format(tar_date,"%Y-%m-%d")
+out_file<-paste("../Output-Files/",today,"-NSE-EQ.txt",sep="")
 write.table(wb1,file=out_file,sep=",",quote=FALSE,row.names=FALSE,col.names=FALSE)
 return(s)
 }

@@ -73,7 +73,8 @@ while(length(ind)!=0)
 wb1[,2]<-format(as.Date(wb1[,2],"%d-%b-%Y"),"%Y%m%d")
 
 #Writing to text file
-out_file<-paste("../Output-Files/fo",today,".txt",sep="")
+today<-format(tar_date,"%Y-%m-%d")
+out_file<-paste("../Output-Files/",today,"-NSE-FO.txt",sep="")
 write.table(wb1,file=out_file,sep=",",quote=FALSE,row.names=FALSE,col.names=FALSE)
 return(s)
 }

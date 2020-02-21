@@ -46,7 +46,8 @@ wb1[,1]<-gsub(' ','',wb1[,1])
 wb1[,2]<-gsub('-','',as.Date(wb1[,2],"%d-%m-%Y"))
 
 #Writing to text file
-out_file<-paste("../Output-Files/indices",today,".txt",sep="")
+today<-format(tar_date,"%Y-%m-%d")
+out_file<-paste("../Output-Files/",today,"-NSE-IND.txt",sep="")
 write.table(wb1,file=out_file,sep=",",quote=FALSE,row.names=FALSE,col.names=FALSE)
 return(s)
 }
