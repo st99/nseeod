@@ -3,13 +3,13 @@ source("eod.r")
 source("eodeq.r")
 source("eodfo.r")
 
-ui <- fluidPage(
+ui <- fluidPage(shinyjs::useShinyjs(),
 		titlePanel("NSE EOD Data Downloader"),
 		sidebarLayout(
 			sidebarPanel(
 				dateInput(inputId="tar_date_from", label="Select FROM date",value=Sys.Date(),max=Sys.Date()),
 				dateInput(inputId="tar_date_to", label="Select TO date",value=Sys.Date(),max=Sys.Date()),
-				radioButtons("dnld_type","Download Type",c("ALL"="all","PARTIAL"="part"),inline=TRUE),
+				radioButtons("dnld_type","",c("ALL"="all","PARTIAL"="part"),inline=TRUE),
 				checkboxInput(inputId="ind",label="Indices"),
 				checkboxInput(inputId="eq",label="Equity"),
 				checkboxInput(inputId="fo",label="F&O"),

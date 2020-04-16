@@ -11,6 +11,10 @@ substr(downloadstr,nchar(downloadstr)-20,nchar(downloadstr)-12)<-today
 substr(downloadstr,nchar(downloadstr)-26,nchar(downloadstr)-24)<-substr(today,3,5)
 substr(downloadstr,nchar(downloadstr)-31,nchar(downloadstr)-28)<-substr(today,6,9)
 
+today<-toupper(format(tar_date,"%d%m%Y"))
+downloadstr1<-"https://archives.nseindia.com/archives/equities/mto/MTO_20022020.DAT"
+substr(downloadstr1,nchar(downloadstr1)-11,nchar(downloadstr1)-4)<-today
+
 #Comment this line when files for latest date available
 #downloadstr<-"https://archives.nseindia.com/content/historical/EQUITIES/2020/JAN/cm10JAN2020bhav.csv.zip"
 req<-curl_fetch_memory(downloadstr)
@@ -38,18 +42,48 @@ stat<-tryCatch(wb<-read.csv(unzip(tmp,exdir="../Others")),error=function(cond) {
         })
 if(identical(stat,"404"))
 {return("404")}
-#curl_download(downloadstr,"indices.csv")
-#wb <- read.csv("indices.csv")
+
+tmp1<-tempfile()
+curl_download(downloadstr1,tmp1)
+stat<-tryCatch(wb<-read.csv(unzip(tmp,exdir="../Others")),error=function(cond) {
+            message(paste("File does not seem to exist: ", downloadstr))
+            message("Here's the original error message:")
+            message(cond)
+            # Choose a return value in case of error
+            return("404")
+        },
+        warning=function(cond) {
+            message(paste("URL caused a warning:", downloadstr))
+            message("Here's the original warning message:")
+            message(cond)
+            # Choose a return value in case of warning
+            return("404")
+        })
+if(identical(stat,"404"))
+{return("404")}
+
+wb2<-read.csv(tmp1,skip=3,row.names=NULL)
+
 wb1<-as_tibble(wb)
 if(ncol(wb1)<=1)
 {	return("404")}
+if(ncol(wb2)<=1)
+{	return("404")}
 
 wb1<-wb1[wb1$SERIES=="EQ"|wb1$SERIES=="BE",]
+wb1<-wb1[!is.na(wb1$SERIES),]
+
+#Adding Deliverables Column
+wb2<-wb2[wb2[,4]=="EQ",c(3,6)]
+wb1<-merge(wb1,wb2,by=c(1),all.x=TRUE)
+wb1[is.na(wb1)]<-0
+
 #Reordering Columns
-wb1<-wb1[,c(1,11,3,4,5,6,9)]
+wb1<-wb1[,c(1,11,3,4,5,6,9,15)]
 
 #Adding Open Interest Column
-wb1["Open.Interest"]<-0
+#wb1["Open.Interest"]<-0
+
 
 #Replacing empty cells with 0
 wb1<-sapply(wb1,as.character)

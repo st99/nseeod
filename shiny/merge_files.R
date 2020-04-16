@@ -1,13 +1,10 @@
 merge_files<-function(input)
 {
 	unlink("../Others/*.*")
-#	unlink("../Output-Files/output.txt")
 	tar_date<-input$tar_date_from
 	while(!identical(tar_date,input$tar_date_to+1)){
 	today<-format(tar_date,"%Y-%m-%d")
 	file_list<-list.files("../Output-Files",full.names=TRUE,pattern=today)
-#	file_list<-paste("../Output-Files",file_list,sep="")
-#	all_data_frames<-lapply(file_list,read.table)
 	for (file in file_list){
  
   # if the merged dataset doesn't exist, create it
@@ -23,7 +20,15 @@ merge_files<-function(input)
     rm(temp_dataset)
   }
 }
-	if(length(file_list)==3)
+	file_len<-0
+	if(input$ind)
+		file_len<-file_len+1
+	if(input$eq)
+		file_len<-file_len+1	
+	if(input$fo)
+		file_len<-file_len+1
+
+	if((length(file_list)==file_len&&identical(input$dnld_type,"part"))||(length(file_list)==3&&identical(input$dnld_type,"all")))
 	{
 		file_name<-paste("../Output-Files/",today,"-NSE.txt",sep="")
 		write.table(dataset,file_name,row.names=FALSE,col.names=FALSE,sep="\n",quote=FALSE)
