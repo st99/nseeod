@@ -38,6 +38,9 @@ wb1["Open.Interest"]<-0
 wb1<-sapply(wb1,as.character)
 wb1[wb1=="-"]<-"0"
 
+#Deleting rows with all cells 0
+wb1<-wb1[!(wb1[,3]=="0"&wb1[,4]=="0"&wb1[,5]=="0"&wb1[,6]=="0"),]
+
 #Formatting Index name
 wb1[,1]<-toupper(wb1[,1])
 wb1[,1]<-gsub(' ','',wb1[,1])

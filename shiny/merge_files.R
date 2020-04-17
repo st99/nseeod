@@ -4,22 +4,12 @@ merge_files<-function(input)
 	tar_date<-input$tar_date_from
 	while(!identical(tar_date,input$tar_date_to+1)){
 	today<-format(tar_date,"%Y-%m-%d")
+	
+	#file_name used further too create the actual merged file
+	file_name<-paste("../Output-Files/",today,"-NSE.txt",sep="")
+	if(file.exists(file_name))
+		unlink(file_name);
 	file_list<-list.files("../Output-Files",full.names=TRUE,pattern=today)
-	for (file in file_list){
- 
-  # if the merged dataset doesn't exist, create it
-  if (!exists("dataset")){
-    dataset <- read.table(file, sep="\n")
-	next
-  }
-   
-  # if the merged dataset does exist, append to it
-  if (exists("dataset")){
-    temp_dataset <-read.table(file, sep="\n")
-    dataset<-rbind(dataset, temp_dataset)
-    rm(temp_dataset)
-  }
-}
 	file_len<-0
 	if(input$ind)
 		file_len<-file_len+1
@@ -30,7 +20,21 @@ merge_files<-function(input)
 
 	if((length(file_list)==file_len&&identical(input$dnld_type,"part"))||(length(file_list)==3&&identical(input$dnld_type,"all")))
 	{
-		file_name<-paste("../Output-Files/",today,"-NSE.txt",sep="")
+		for (file in file_list){
+ 
+  			# if the merged dataset doesn't exist, create it
+  			if (!exists("dataset")){
+    				dataset <- read.table(file, sep="\n")
+				next
+  			}
+   
+  			# if the merged dataset does exist, append to it
+  			if (exists("dataset")){
+    				temp_dataset <-read.table(file, sep="\n")
+    				dataset<-rbind(dataset, temp_dataset)
+    				rm(temp_dataset)
+  			}
+		}
 		write.table(dataset,file_name,row.names=FALSE,col.names=FALSE,sep="\n",quote=FALSE)
 	}
 	unlink(file_list)
